@@ -7,7 +7,6 @@ const initialColor = {
 };
 
 const ColorList = ({ colors, updateColors }) => {
-  // console.log(colors);
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
 
@@ -18,13 +17,10 @@ const ColorList = ({ colors, updateColors }) => {
 
   const saveEdit = e => {
     e.preventDefault();
-    // Make a put request to save your updated color
-    // think about where will you get the id from...
-    // where is is saved right now?
+
     axiosWithAuth()
       .put(`/colors/${colorToEdit.id}`, colorToEdit)
       .then(res => {
-        // console.log("Updated color", res.data);
         updateColors(
           colors.map(color => (color.id === colorToEdit.id ? res.data : color)),
         );
@@ -35,12 +31,12 @@ const ColorList = ({ colors, updateColors }) => {
   };
 
   const deleteColor = (e, color) => {
-    // make a delete request to delete this color
+    // Used to stop the edit form from triggering while trying to delete
     e.stopPropagation();
+
     axiosWithAuth()
       .delete(`/colors/${color.id}`)
       .then(res => {
-        // console.log("Deleted color", res.data);
         updateColors(colors.filter(color => color.id !== res.data));
       })
       .catch(err => {
