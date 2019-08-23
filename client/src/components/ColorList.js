@@ -34,8 +34,9 @@ const ColorList = ({ colors, updateColors }) => {
       });
   };
 
-  const deleteColor = color => {
+  const deleteColor = (e, color) => {
     // make a delete request to delete this color
+    e.stopPropagation();
     axiosWithAuth()
       .delete(`/colors/${color.id}`)
       .then(res => {
@@ -54,7 +55,7 @@ const ColorList = ({ colors, updateColors }) => {
         {colors.map(color => (
           <li key={color.color} onClick={() => editColor(color)}>
             <span>
-              <span className="delete" onClick={() => deleteColor(color)}>
+              <span className="delete" onClick={e => deleteColor(e, color)}>
                 x
               </span>{" "}
               {color.color}
