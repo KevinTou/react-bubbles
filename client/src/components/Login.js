@@ -32,7 +32,7 @@ const Login = props => {
   };
 
   return (
-    <>
+    <div className="login-wrapper">
       <h1>Welcome to the Bubble App!</h1>
       <form onSubmit={handleSubmit}>
         <fieldset>
@@ -60,7 +60,7 @@ const Login = props => {
           <button>Login</button>
         </fieldset>
       </form>
-    </>
+    </div>
   );
 };
 
