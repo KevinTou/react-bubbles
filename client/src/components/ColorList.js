@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { axiosWithAuth } from "../utils/axiosWithAuth";
 
 const initialColor = {
   color: "",
-  code: { hex: "" }
+  code: { hex: "" },
 };
 
 const ColorList = ({ colors, updateColors }) => {
-  console.log(colors);
+  // console.log(colors);
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
 
@@ -21,6 +21,17 @@ const ColorList = ({ colors, updateColors }) => {
     // Make a put request to save your updated color
     // think about where will you get the id from...
     // where is is saved right now?
+    axiosWithAuth()
+      .put(`/colors/${colorToEdit.id}`, colorToEdit)
+      .then(res => {
+        // console.log("Updated color", res.data);
+        updateColors(
+          colors.map(color => (color.id === colorToEdit.id ? res.data : color)),
+        );
+      })
+      .catch(err => {
+        console.log("Error: ", err);
+      });
   };
 
   const deleteColor = color => {
@@ -64,7 +75,7 @@ const ColorList = ({ colors, updateColors }) => {
               onChange={e =>
                 setColorToEdit({
                   ...colorToEdit,
-                  code: { hex: e.target.value }
+                  code: { hex: e.target.value },
                 })
               }
               value={colorToEdit.code.hex}
